@@ -2,7 +2,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/iwdgo/fileattributes)](https://goreportcard.com/report/github.com/iwdgo/fileattributes)
 [![codecov](https://codecov.io/gh/iwdgo/fileattributes/branch/master/graph/badge.svg)](https://codecov.io/gh/iwdgo/fileattributes)
 
-![GitHub](https://github.com/iwdgo/fileattributes/workflows/GitHub/badge.svg)
+[![Go](https://github.com/iwdgo/fileattributes/actions/workflows/go.yml/badge.svg)](https://github.com/iwdgo/fileattributes/actions/workflows/go.yml)
 
 # File Attributes on Windows
 
