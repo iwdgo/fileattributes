@@ -1,8 +1,8 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/iwdgo/windowsattributes.svg)](https://pkg.go.dev/github.com/iwdgo/windowsattributes)
-[![Go Report Card](https://goreportcard.com/badge/github.com/iwdgo/windowsattributes)](https://goreportcard.com/report/github.com/iwdgo/windowsattributes)
-[![codecov](https://codecov.io/gh/iwdgo/windowsattributes/branch/master/graph/badge.svg)](https://codecov.io/gh/iwdgo/windowsattributes)
+[![Go Reference](https://pkg.go.dev/badge/github.com/iwdgo/fileattributes.svg)](https://pkg.go.dev/github.com/iwdgo/windowsattributes)
+[![Go Report Card](https://goreportcard.com/badge/github.com/iwdgo/fileattributes)](https://goreportcard.com/report/github.com/iwdgo/windowsattributes)
+[![codecov](https://codecov.io/gh/iwdgo/fileattributes/branch/master/graph/badge.svg)](https://codecov.io/gh/iwdgo/windowsattributes)
 
-[![Build Status](https://app.travis-ci.com/iwdgo/windowsattributes.svg?branch=master)](https://app.travis-ci.com/iwdgo/windowsattributes)
+![GitHub](https://github.com/iwdgo/fileattributes/workflows/GitHub/badge.svg)
 
 # File Attributes on Windows
 
