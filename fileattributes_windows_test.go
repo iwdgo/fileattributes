@@ -82,10 +82,12 @@ func TestStatFileAttributes(t *testing.T) {
 	if err != nil {
 		t.Fatalf("%s", err)
 	}
-	if fa&FILE_ATTRIBUTE_NORMAL == 1 {
-		PrintAttributes(fa)
-		t.Fatalf("FILE_ATTRIBUTE_NORMAL is unexpectedly set: %b", fa)
+	// On Windows, Win32 API do not return attributes for a pipe
+	if fa&FILE_ATTRIBUTE_NORMAL != 0 {
+		return
 	}
+	PrintAttributes(fa)
+	t.Fatalf("FILE_ATTRIBUTE_NORMAL is not set: %b", fa)
 }
 
 func TestDoesNotExist(t *testing.T) {

@@ -38,18 +38,17 @@ type FileAttributes uint32
 
 // StatFileAttributes returns the attributes of a path.
 // Every result of a call is checked until some attributes are available.
+// Error returned is always from CreateFile as attributes if any.
 func StatFileAttributes(path string) (fa FileAttributes, err error) {
 	if fa, err = GetFileAttributesEx(path); err == nil {
-		return fa, nil
-	}
-	if fa&FILE_ATTRIBUTE_NORMAL != 1 {
-		return fa, err
+		if fa&FILE_ATTRIBUTE_NORMAL == 0 {
+			return fa, nil
+		}
 	}
 	if fa, err = FindFirstFile(path); err == nil {
-		return fa, nil
-	}
-	if fa&FILE_ATTRIBUTE_NORMAL != 1 {
-		return fa, err
+		if fa&FILE_ATTRIBUTE_NORMAL == 0 {
+			return fa, nil
+		}
 	}
 	if fa, err = CreateFile(path); err == nil {
 		return fa, nil
