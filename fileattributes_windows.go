@@ -1,4 +1,4 @@
-// Package fileattributes returns all attributes of a file
+// Package fileattributes has methods to work on windows file attributes.
 
 //go:build windows
 // +build windows
@@ -37,8 +37,8 @@ const (
 type FileAttributes uint32
 
 // StatFileAttributes returns the attributes of a path.
-// Every result of a call is checked until some attributes are available.
-// Error returned is always from CreateFile as attributes if any.
+// Several calls are attempted until some attributes are available.
+// Error returned is always from CreateFile and attributes if any.
 func StatFileAttributes(path string) (fa FileAttributes, err error) {
 	if fa, err = GetFileAttributesEx(path); err == nil {
 		if fa&FILE_ATTRIBUTE_NORMAL == 0 {
