@@ -7,6 +7,7 @@ package fileattributes
 
 import (
 	"fmt"
+	"os"
 	"syscall"
 	"unsafe"
 )
@@ -112,11 +113,15 @@ func CreateFile(path string) (FileAttributes, error) {
 	return FileAttributes(d.FileAttributes), err
 }
 
-// PrintAttributes prints attributes using readable names from documentation
-func PrintAttributes(attrs FileAttributes) {
+// PrintAttributes prints attributes using readable names from documentation to os.Stdout when no file is provided.
+func PrintAttributes(attrs FileAttributes, f ...*os.File) {
+	w := os.Stdout
+	if f != nil {
+		w = f[0]
+	}
 	printBit := func(s string, b FileAttributes) {
 		if b != 0 {
-			fmt.Printf(" %s", s)
+			_, _ = fmt.Fprintf(w, " %s", s)
 		}
 	}
 	printBit("READONLY", attrs&FILE_ATTRIBUTE_READONLY)

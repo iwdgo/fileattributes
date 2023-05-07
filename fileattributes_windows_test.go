@@ -4,6 +4,8 @@
 package fileattributes
 
 import (
+	"bytes"
+	"io"
 	"os"
 	"syscall"
 	"testing"
@@ -57,15 +59,7 @@ func TestPipe(t *testing.T) {
 	}
 
 	fa3, err := CreateFile(pipePath)
-	switch err {
-	case ERROR_PIPE_BUSY:
-	case ERROR_BUSY:
-		t.Skipf("%s. Ignoring test using CreateFile on a pipe", err)
-	default:
-		if err != nil {
-			t.Fatalf("%s", err)
-		}
-	}
+	pipeError(t, err)
 	if fa1 != fa3 {
 		PrintAttributes(fa1)
 		t.Errorf("got (GetFileAttributesEx) %b, want (CreateFile) %b", fa1, fa3)
@@ -79,9 +73,7 @@ func TestPipe(t *testing.T) {
 
 func TestStatFileAttributes(t *testing.T) {
 	fa, err := StatFileAttributes(pipePath)
-	if err != nil {
-		t.Fatalf("%s", err)
-	}
+	pipeError(t, err)
 	// On Windows, Win32 API do not return attributes for a pipe
 	if fa&FILE_ATTRIBUTE_NORMAL != 0 {
 		return
@@ -109,6 +101,45 @@ func TestDoesNotExist(t *testing.T) {
 	}
 	_, err = CreateFile(doesnotexit)
 	if !os.IsNotExist(err) {
+		t.Fatalf("%s", err)
+	}
+}
+
+func TestPrintBit(t *testing.T) {
+	f, err := CreateFile(pipePath)
+	pipeError(t, err)
+	flog, err := os.CreateTemp("", "")
+	if err != nil {
+		t.Error(err)
+	}
+	PrintAttributes(f, flog)
+	filename := flog.Name()
+	_ = flog.Close() // cannot flush a temporary file on windows
+	flog, err = os.Open(filename)
+	if err != nil {
+		t.Error(f)
+	}
+	buf, err := io.ReadAll(flog)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(buf) == 0 {
+		t.Error("logging file is empty")
+		return
+	}
+	if w := []byte("NORMAL"); bytes.Equal(buf, w) {
+		t.Errorf("got %s, want %s", buf, w)
+	}
+}
+
+func pipeError(t *testing.T, err error) {
+	switch err {
+	case nil:
+		return
+	case ERROR_PIPE_BUSY:
+	case ERROR_BUSY:
+		t.Skipf("%s. Ignoring test using CreateFile on a pipe", err)
+	default:
 		t.Fatalf("%s", err)
 	}
 }
