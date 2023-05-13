@@ -37,9 +37,9 @@ func ExampleStatFileAttributes() {
 		if f, err := fileattributes.FindFirstFile(s); err == nil {
 			fmt.Printf("%s:", s)
 			fileattributes.PrintAttributes(f)
-		} else {
-			fail++
+			continue
 		}
+		fail++
 	}
 	fmt.Print(fmt.Sprintf(pf, "StatFileAttributes", fail))
 	// Output: *.go: ARCHIVE
@@ -108,9 +108,9 @@ func ExampleFindFirstFile() {
 		if f, err := fileattributes.FindFirstFile(s); err == nil {
 			fmt.Printf("%s:", s)
 			fileattributes.PrintAttributes(f)
-		} else {
-			fail++
+			continue
 		}
+		fail++
 	}
 	fmt.Print(fmt.Sprintf(pf, "FindFirstFile", fail))
 	// Output:
@@ -131,9 +131,9 @@ func ExampleCreateFile() {
 		if f, err := fileattributes.CreateFile(s); err == nil {
 			fmt.Printf("%s:", s)
 			fileattributes.PrintAttributes(f)
-		} else {
-			fail++
+			continue
 		}
+		fail++
 	}
 	fmt.Print(fmt.Sprintf(pf, "CreateFile", fail))
 	// Output: ..\: DIRECTORY
