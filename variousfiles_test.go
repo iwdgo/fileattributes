@@ -72,8 +72,9 @@ func ExampleGetFileAttributesEx() {
 		case os.IsNotExist(err):
 			donotexist++
 		case os.IsPermission(err):
-		case os.IsTimeout(err):
 			perm++
+		case os.IsTimeout(err):
+			timeout++
 		case errors.Is(err, ERROR_SHARING_VIOLATION):
 			fmt.Printf("%s: %s\n", s, err) // 2
 		default:
@@ -81,9 +82,15 @@ func ExampleGetFileAttributesEx() {
 			fail++
 		}
 	}
-	fmt.Printf("%d files do not exist\n", donotexist)
-	fmt.Printf("Access is denied to %d files\n", perm)
-	fmt.Printf("GetFileAttributesEx timed out for %d files\n", timeout)
+	if donotexist != 0 {
+		fmt.Printf("%d files do not exist\n", donotexist)
+	}
+	if perm != 0 {
+		fmt.Printf("Access is denied to %d files\n", perm)
+	}
+	if timeout != 0 {
+		fmt.Printf("GetFileAttributesEx timed out for %d files\n", timeout)
+	}
 	fmt.Print(fmt.Sprintf(pf, "GetFileAttributesEx", fail))
 	// Output:
 	// *.go: The filename, directory name, or volume label syntax is incorrect.
@@ -96,8 +103,6 @@ func ExampleGetFileAttributesEx() {
 	// CON: The parameter is incorrect.
 	// NUL: The parameter is incorrect.
 	// 2 files do not exist
-	// Access is denied to 0 files
-	// GetFileAttributesEx timed out for 0 files
 	// GetFileAttributesEx fails for 5 files
 }
 
