@@ -32,16 +32,25 @@ var files = []string{
 }
 
 func ExampleStatFileAttributes() {
-	fail := 0
+	donotexist, fail := 0, 0
 	for _, s := range files {
-		if f, err := fileattributes.FindFirstFile(s); err == nil {
+		f, err := fileattributes.FindFirstFile(s)
+		switch {
+		case err == nil:
 			fmt.Printf("%s:", s)
 			fileattributes.PrintAttributes(f)
-			continue
+		case os.IsNotExist(err):
+			donotexist++
+		default:
+			fail++
 		}
-		fail++
 	}
-	fmt.Print(fmt.Sprintf(pf, "StatFileAttributes", fail))
+	if donotexist != 0 {
+		fmt.Printf("%d files do not exist\n", donotexist)
+	}
+	if fail != 0 {
+		fmt.Print(fmt.Sprintf(pf, "StatFileAttributes", fail))
+	}
 	// Output: *.go: ARCHIVE
 	// \\.\\pipe\trkwks: NORMAL
 	// go.mod: ARCHIVE
@@ -54,7 +63,7 @@ func ExampleStatFileAttributes() {
 	// link.dir: DIRECTORY REPARSE_POINT
 	// CON: ARCHIVE
 	// NUL: ARCHIVE
-	// StatFileAttributes fails for 2 files
+	// 2 files do not exist
 }
 
 // reservedNames := []string{"CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
@@ -117,16 +126,25 @@ func ExampleGetFileAttributesEx() {
 
 // ExampleFindFirstFile is using the test files to demonstrate usage.
 func ExampleFindFirstFile() {
-	fail := 0
+	donotexist, fail := 0, 0
 	for _, s := range files {
-		if f, err := fileattributes.FindFirstFile(s); err == nil {
+		f, err := fileattributes.FindFirstFile(s)
+		switch {
+		case err == nil:
 			fmt.Printf("%s:", s)
 			fileattributes.PrintAttributes(f)
-			continue
+		case os.IsNotExist(err):
+			donotexist++
+		default:
+			fail++
 		}
-		fail++
 	}
-	fmt.Print(fmt.Sprintf(pf, "FindFirstFile", fail))
+	if donotexist != 0 {
+		fmt.Printf("%d files do not exist\n", donotexist)
+	}
+	if fail != 0 {
+		fmt.Print(fmt.Sprintf(pf, "FindFirstFile", fail))
+	}
 	// Output:
 	// *.go: ARCHIVE
 	// \\.\\pipe\trkwks: NORMAL
@@ -140,7 +158,7 @@ func ExampleFindFirstFile() {
 	// link.dir: DIRECTORY REPARSE_POINT
 	// CON: ARCHIVE
 	// NUL: ARCHIVE
-	// FindFirstFile fails for 2 files
+	// 2 files do not exist
 }
 
 // ExampleFindFirstFile is using the test files to demonstrate usage.
