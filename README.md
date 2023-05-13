@@ -10,17 +10,15 @@ The set of file attributes can change depending on the used Win32 API call.
 [File attributes](https://docs.microsoft.com/en-us/windows/win32/fileio/file-attribute-constants) provides some methods
 to detail them.
 
-### Go language
+## Further reading
 
-Documentation links:
+### Go
+
 - [Documentation of package syscall](https://pkg.go.dev/syscall)  
-- [Using a module](https://go.dev/ref/mod)  
+- [hidden](https://go.dev/issue/25923)  
+- [pipe](https://go.dev/issue/41755)  
 
-Related issues:
-- https://go.dev/issue/25923  
-- https://go.dev/issue/41755  
-
-## Windows documentation
+### Windows
 
 - [GetFileAttributesEx](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileattributesexw)  
 - [FileFirstFileExW](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-findfirstfileexw)  
