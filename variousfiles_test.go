@@ -4,6 +4,7 @@
 package fileattributes_test
 
 import (
+	"errors"
 	"fmt"
 	fileattributes "github.com/iwdgo/filesattributes"
 	"os"
@@ -63,19 +64,19 @@ func ExampleGetFileAttributesEx() {
 	timeout := 0
 	fail := 0
 	for _, s := range files {
-		if f, err := fileattributes.GetFileAttributesEx(s); err == nil {
+		f, err := fileattributes.GetFileAttributesEx(s)
+		switch {
+		case err == nil:
 			fmt.Printf("%s:", s)
 			fileattributes.PrintAttributes(f)
-			continue
-		} else if os.IsNotExist(err) {
+		case os.IsNotExist(err):
 			donotexist++
-		} else if os.IsPermission(err) {
+		case os.IsPermission(err):
+		case os.IsTimeout(err):
 			perm++
-		} else if os.IsTimeout(err) {
-			perm++
-		} else if err == ERROR_SHARING_VIOLATION {
+		case errors.Is(err, ERROR_SHARING_VIOLATION):
 			fmt.Printf("%s: %s\n", s, err) // 2
-		} else {
+		default:
 			fmt.Printf("%s: %s\n", s, err)
 			fail++
 		}
