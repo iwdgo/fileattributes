@@ -22,13 +22,13 @@ var files = []string{
 	`C:\pagefile.sys`,
 	`C:\Dumpstack.log`,
 	`C:\Dumpstack.log.tmp`,
-	"CONIN$",  // os.Stdin.Name() = /dev/stdin
-	"CONOUT$", // os.Stdout.Name() = /dev/stdout
-	"link.hard",
-	"link.dir", // TODO Does not exist
+	"CONIN$",    // os.Stdin.Name() = /dev/stdin
+	"CONOUT$",   // os.Stdout.Name() = /dev/stdout
+	"link.hard", // hard link to go.mod
+	"link.dir",  // directory junction (link) to parent directory of module
 	"CON",
 	"NUL",
-	// link using /D is missing
+	// link using /D is missing as it requires privileges
 }
 
 func ExampleStatFileAttributes() {
@@ -51,9 +51,10 @@ func ExampleStatFileAttributes() {
 	// CONIN$: ARCHIVE
 	// CONOUT$: ARCHIVE
 	// link.hard: ARCHIVE
+	// link.dir: DIRECTORY REPARSE_POINT
 	// CON: ARCHIVE
 	// NUL: ARCHIVE
-	// StatFileAttributes fails for 3 files
+	// StatFileAttributes fails for 2 files
 }
 
 // reservedNames := []string{"CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
@@ -108,9 +109,9 @@ func ExampleGetFileAttributesEx() {
 	// CONIN$: Incorrect function.
 	// CONOUT$: Incorrect function.
 	// link.hard: ARCHIVE
+	// link.dir: DIRECTORY REPARSE_POINT
 	// CON: The parameter is incorrect.
 	// NUL: The parameter is incorrect.
-	// 1 files do not exist
 	// GetFileAttributesEx fails for 5 files
 }
 
@@ -136,9 +137,10 @@ func ExampleFindFirstFile() {
 	// CONIN$: ARCHIVE
 	// CONOUT$: ARCHIVE
 	// link.hard: ARCHIVE
+	// link.dir: DIRECTORY REPARSE_POINT
 	// CON: ARCHIVE
 	// NUL: ARCHIVE
-	// FindFirstFile fails for 3 files
+	// FindFirstFile fails for 2 files
 }
 
 // ExampleFindFirstFile is using the test files to demonstrate usage.
@@ -158,5 +160,6 @@ func ExampleCreateFile() {
 	// go.mod: ARCHIVE
 	// C:\: HIDDEN SYSTEM DIRECTORY
 	// link.hard: ARCHIVE
-	// CreateFile fails for 9 files
+	// link.dir: DIRECTORY
+	// CreateFile fails for 8 files
 }
