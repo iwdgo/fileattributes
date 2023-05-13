@@ -22,10 +22,10 @@ var files = []string{
 	`C:\pagefile.sys`,
 	`C:\Dumpstack.log`,
 	`C:\Dumpstack.log.tmp`,
-	"CONIN$",    // os.Stdin.Name() = /dev/stdin
-	"CONOUT$",   // os.Stdout.Name() = /dev/stdout
-	"link.hard", // TODO Does not exist
-	"link.dir",  // TODO Does not exist
+	"CONIN$",  // os.Stdin.Name() = /dev/stdin
+	"CONOUT$", // os.Stdout.Name() = /dev/stdout
+	"link.hard",
+	"link.dir", // TODO Does not exist
 	"CON",
 	"NUL",
 	// link using /D is missing
@@ -50,9 +50,10 @@ func ExampleStatFileAttributes() {
 	// C:\Dumpstack.log.tmp: HIDDEN SYSTEM ARCHIVE
 	// CONIN$: ARCHIVE
 	// CONOUT$: ARCHIVE
+	// link.hard: ARCHIVE
 	// CON: ARCHIVE
 	// NUL: ARCHIVE
-	// StatFileAttributes fails for 4 files
+	// StatFileAttributes fails for 3 files
 }
 
 // reservedNames := []string{"CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
@@ -106,9 +107,10 @@ func ExampleGetFileAttributesEx() {
 	// C:\Dumpstack.log.tmp: The process cannot access the file because it is being used by another process.
 	// CONIN$: Incorrect function.
 	// CONOUT$: Incorrect function.
+	// link.hard: ARCHIVE
 	// CON: The parameter is incorrect.
 	// NUL: The parameter is incorrect.
-	// 2 files do not exist
+	// 1 files do not exist
 	// GetFileAttributesEx fails for 5 files
 }
 
@@ -133,9 +135,10 @@ func ExampleFindFirstFile() {
 	// C:\Dumpstack.log.tmp: HIDDEN SYSTEM ARCHIVE
 	// CONIN$: ARCHIVE
 	// CONOUT$: ARCHIVE
+	// link.hard: ARCHIVE
 	// CON: ARCHIVE
 	// NUL: ARCHIVE
-	// FindFirstFile fails for 4 files
+	// FindFirstFile fails for 3 files
 }
 
 // ExampleFindFirstFile is using the test files to demonstrate usage.
@@ -154,5 +157,6 @@ func ExampleCreateFile() {
 	// \\.\\pipe\trkwks: NORMAL
 	// go.mod: ARCHIVE
 	// C:\: HIDDEN SYSTEM DIRECTORY
-	// CreateFile fails for 10 files
+	// link.hard: ARCHIVE
+	// CreateFile fails for 9 files
 }
