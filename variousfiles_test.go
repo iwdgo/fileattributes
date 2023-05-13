@@ -18,10 +18,10 @@ var files = []string{
 	`..\`,
 	`\\.\\pipe\trkwks`, // Pipe presence and use is recommended
 	"go.mod",
-	"C:\\\\",
-	// "C:\\\\pagefile.sys", // Fails locally
-	// "C:\\\\Dumpstack.log", // Fails locally
-	// "C:\\\\Dumpstack.log.tmp", // Fails locally
+	`C:\`,
+	// `C:\pagefile.sys`, // Fails locally
+	// `C:\Dumpstack.log`, // Fails locally
+	// `C:\Dumpstack.log.tmp`, // Fails locally
 	"CONIN$",    // os.Stdin.Name() = /dev/stdin
 	"CONOUT$",   // os.Stdout.Name() = /dev/stdout
 	"link.hard", // TODO Does not exist
@@ -90,7 +90,7 @@ func ExampleGetFileAttributesEx() {
 	// ..\: DIRECTORY
 	// \\.\\pipe\trkwks: NORMAL
 	// go.mod: ARCHIVE
-	// C:\\: HIDDEN SYSTEM DIRECTORY
+	// C:\: HIDDEN SYSTEM DIRECTORY
 	// CONIN$: Incorrect function.
 	// CONOUT$: Incorrect function.
 	// CON: The parameter is incorrect.
@@ -139,6 +139,6 @@ func ExampleCreateFile() {
 	// Output: ..\: DIRECTORY
 	// \\.\\pipe\trkwks: NORMAL
 	// go.mod: ARCHIVE
-	// C:\\: HIDDEN SYSTEM DIRECTORY
+	// C:\: HIDDEN SYSTEM DIRECTORY
 	// CreateFile fails for 7 files
 }

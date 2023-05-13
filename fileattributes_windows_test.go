@@ -74,7 +74,7 @@ func TestPipe(t *testing.T) {
 func TestStatFileAttributes(t *testing.T) {
 	fa, err := StatFileAttributes(pipePath)
 	pipeError(t, err)
-	// On Windows, Win32 API do not return attributes for a pipe
+	// On Windows, Win32 API does not return attributes for a pipe
 	if fa&FILE_ATTRIBUTE_NORMAL != 0 {
 		return
 	}
