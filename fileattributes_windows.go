@@ -144,7 +144,7 @@ func PrintAttributes(attrs FileAttributes, f ...*os.File) {
 	printBit("PINNED", attrs&FILE_ATTRIBUTE_PINNED)
 	printBit("UNPINNED", attrs&FILE_ATTRIBUTE_UNPINNED)
 	printBit("ON_DATA_ACCESS", attrs&FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS)
-	fmt.Print("\n")
+	_, _ = fmt.Fprintln(w)
 }
 
 // SetFileAttributes sets the attributes of the file with path
