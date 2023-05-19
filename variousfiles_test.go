@@ -19,9 +19,9 @@ var files = []string{
 	`\\.\\pipe\trkwks`, // Pipe presence and use is recommended
 	"go.mod",
 	`C:\`,
-	// `C:\pagefile.sys`, // TODO Unavailable on Github CI
+	// `C:\pagefile.sys`, // TODO No always available on CI
 	// `C:\Dumpstack.log`,
-	`C:\Dumpstack.log.tmp`,
+	// `C:\Dumpstack.log.tmp`,
 	"CONIN$",    // os.Stdin.Name() = /dev/stdin
 	"CONOUT$",   // os.Stdout.Name() = /dev/stdout
 	"link.hard", // hard link to go.mod
@@ -54,7 +54,6 @@ func ExampleStatFileAttributes() {
 	// Output: *.go: ARCHIVE
 	// \\.\\pipe\trkwks: NORMAL
 	// go.mod: ARCHIVE
-	// C:\Dumpstack.log.tmp: HIDDEN SYSTEM ARCHIVE
 	// CONIN$: ARCHIVE
 	// CONOUT$: ARCHIVE
 	// link.hard: ARCHIVE
@@ -110,7 +109,6 @@ func ExampleGetFileAttributesEx() {
 	// \\.\\pipe\trkwks: NORMAL
 	// go.mod: ARCHIVE
 	// C:\: HIDDEN SYSTEM DIRECTORY
-	// C:\Dumpstack.log.tmp: The process cannot access the file because it is being used by another process.
 	// CONIN$: Incorrect function.
 	// CONOUT$: Incorrect function.
 	// link.hard: ARCHIVE
@@ -145,7 +143,6 @@ func ExampleFindFirstFile() {
 	// *.go: ARCHIVE
 	// \\.\\pipe\trkwks: NORMAL
 	// go.mod: ARCHIVE
-	// C:\Dumpstack.log.tmp: HIDDEN SYSTEM ARCHIVE
 	// CONIN$: ARCHIVE
 	// CONOUT$: ARCHIVE
 	// link.hard: ARCHIVE
@@ -173,5 +170,5 @@ func ExampleCreateFile() {
 	// C:\: HIDDEN SYSTEM DIRECTORY
 	// link.hard: ARCHIVE
 	// link.dir: DIRECTORY
-	// CreateFile fails for 6 files
+	// CreateFile fails for 5 files
 }
