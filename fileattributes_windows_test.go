@@ -6,7 +6,9 @@ package fileattributes
 import (
 	"bytes"
 	"io"
+	"log"
 	"os"
+	"os/exec"
 	"syscall"
 	"testing"
 )
@@ -17,6 +19,37 @@ const (
 	ERROR_BUSY      syscall.Errno = 170
 	ERROR_PIPE_BUSY syscall.Errno = 231
 )
+
+func TestMain(m *testing.M) {
+	d := "target"
+	err := os.Mkdir(d, os.FileMode(600))
+	if err != nil {
+		panic(err)
+	}
+	dd := "link.dir"
+	cmd := exec.Command("cmd", "/C", "mklink", "/J", dd, "target")
+	err = cmd.Run()
+	// err = os.Symlink(d, "link.dir") // Requires privilege
+	if err != nil {
+		out, _ := cmd.CombinedOutput()
+		log.Printf("%s", out)
+		log.Print(err)
+	}
+	dl := "link.hard"
+	cmd = exec.Command("cmd", "/C", "mklink", "/H", dl, "go.mod")
+	err = cmd.Run()
+	// err = os.Link("go.mod", dl) // Requires privilege
+	if err != nil {
+		out, _ := cmd.CombinedOutput()
+		log.Printf("%s", out)
+		log.Print(err)
+	}
+	e := m.Run()
+	_ = os.Remove(d)
+	_ = os.Remove(dd)
+	_ = os.Remove(dl)
+	os.Exit(e)
+}
 
 func TestFileArchive(t *testing.T) {
 	fa1, err := GetFileAttributesEx(archivePath)
