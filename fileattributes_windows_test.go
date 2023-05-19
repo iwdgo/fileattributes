@@ -165,6 +165,42 @@ func TestPrintBit(t *testing.T) {
 	}
 }
 
+func TestSetFileAttributes(t *testing.T) {
+	f, err := os.Create(t.Name())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() {
+		err = f.Close()
+		if err != nil {
+			t.Log(err)
+		}
+		err = os.Remove(f.Name())
+		if err != nil {
+			t.Log(err)
+		}
+	}()
+	attrw, err := StatFileAttributes(f.Name())
+	if err != nil {
+		t.Error(err)
+	}
+	if attrw&FILE_ATTRIBUTE_HIDDEN != 0 {
+		t.Errorf("file %s is already hidden", f.Name())
+	}
+	attrw = attrw | FILE_ATTRIBUTE_HIDDEN
+	err = SetFileAttributes(f.Name(), attrw)
+	if err != nil {
+		t.Error(err)
+	}
+	attrg, err := StatFileAttributes(f.Name())
+	if err != nil {
+		t.Error(err)
+	}
+	if attrw != attrg {
+		t.Fatalf("got %v, want %v", attrg, attrw)
+	}
+}
+
 func pipeError(t *testing.T, err error) {
 	switch err {
 	case nil:

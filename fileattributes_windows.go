@@ -146,3 +146,13 @@ func PrintAttributes(attrs FileAttributes, f ...*os.File) {
 	printBit("ON_DATA_ACCESS", attrs&FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS)
 	fmt.Print("\n")
 }
+
+// SetFileAttributes sets the attributes of the file with path
+func SetFileAttributes(path string, attr FileAttributes) error {
+	p, err := syscall.UTF16PtrFromString(path)
+	if err != nil {
+		return err
+	}
+	err = syscall.SetFileAttributes(p, uint32(attr))
+	return err
+}
