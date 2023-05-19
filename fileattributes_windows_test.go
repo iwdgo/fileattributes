@@ -6,7 +6,9 @@ package fileattributes
 import (
 	"bytes"
 	"io"
+	"log"
 	"os"
+	"os/exec"
 	"syscall"
 	"testing"
 )
@@ -18,7 +20,6 @@ const (
 	ERROR_PIPE_BUSY syscall.Errno = 231
 )
 
-/*
 func TestMain(m *testing.M) {
 	d := "target"
 	err := os.Mkdir(d, os.FileMode(600))
@@ -49,8 +50,6 @@ func TestMain(m *testing.M) {
 	_ = os.Remove(dl)
 	os.Exit(e)
 }
-
-*/
 
 func TestFileArchive(t *testing.T) {
 	fa1, err := GetFileAttributesEx(archivePath)
