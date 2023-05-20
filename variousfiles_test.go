@@ -6,7 +6,7 @@ package fileattributes_test
 import (
 	"errors"
 	"fmt"
-	fileattributes "github.com/iwdgo/filesattributes"
+	fileattributes "github.com/iwdgo/fileattributes"
 	"os"
 	"syscall"
 )
